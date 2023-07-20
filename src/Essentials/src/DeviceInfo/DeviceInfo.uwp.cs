@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Maui.ApplicationModel;
 using Windows.Security.ExchangeActiveSyncProvisioning;
+using Windows.Storage.Streams;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
@@ -29,6 +30,23 @@ namespace Microsoft.Maui.Devices
 			catch (Exception ex)
 			{
 				Debug.WriteLine($"Unable to get system product name. {ex.Message}");
+			}
+		}
+
+		public string DeviceId
+		{
+			get
+			{
+				var systemIdentificationInfo = SystemIdentification.GetSystemIdForPublisher();
+
+				if (systemIdentificationInfo == null)
+					return null;
+
+				using (var dataReader = DataReader.FromBuffer(systemIdentificationInfo.Id))
+				{
+					dataReader.UnicodeEncoding = UnicodeEncoding.Utf8;
+					return dataReader.ReadString(systemIdentificationInfo.Id.Length);
+				}
 			}
 		}
 

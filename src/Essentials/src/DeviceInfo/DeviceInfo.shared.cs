@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using Microsoft.Maui.ApplicationModel;
 
 namespace Microsoft.Maui.Devices
 {
@@ -23,6 +24,11 @@ namespace Microsoft.Maui.Devices
 	/// </summary>
 	public interface IDeviceInfo
 	{
+		/// <summary>
+		/// Gets the unique ID of the device.
+		/// </summary>
+		string DeviceId { get; }
+
 		/// <summary>
 		/// Gets the model of the device.
 		/// </summary>
@@ -70,6 +76,11 @@ namespace Microsoft.Maui.Devices
 	/// </summary>
 	public static class DeviceInfo
 	{
+		/// <summary>
+		/// Gets the unique ID of the device.
+		/// </summary>
+		public static string DeviceId => Current.DeviceId;
+
 		/// <summary>
 		/// Gets the model of the device.
 		/// </summary>
