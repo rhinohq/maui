@@ -2,8 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Maui.ApplicationModel;
+using Windows.Security.Cryptography;
 using Windows.Security.ExchangeActiveSyncProvisioning;
-using Windows.Storage.Streams;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
@@ -40,13 +40,9 @@ namespace Microsoft.Maui.Devices
 				var systemIdentificationInfo = SystemIdentification.GetSystemIdForPublisher();
 
 				if (systemIdentificationInfo == null)
-					return null;
+					return string.Empty;
 
-				using (var dataReader = DataReader.FromBuffer(systemIdentificationInfo.Id))
-				{
-					dataReader.UnicodeEncoding = UnicodeEncoding.Utf8;
-					return dataReader.ReadString(systemIdentificationInfo.Id.Length);
-				}
+				return CryptographicBuffer.EncodeToHexString(systemIdentificationInfo.Id);
 			}
 		}
 
